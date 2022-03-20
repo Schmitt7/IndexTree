@@ -13,11 +13,17 @@ public class IndexNode  {
 	
 	IndexNode left;
 	IndexNode right;
-	
-	
+
+
+
+
 	// Constructors
 	// Constructor should take in a word and a line number
 	// it should initialize the list and set occurrences to 1
+
+	public IndexNode(String word, int lineNumber) {
+
+	}
 	
 	
 	
@@ -27,7 +33,23 @@ public class IndexNode  {
 	// string must be one line
 	
 	public String toString(){
-		return "";
+
+		return toString(this.root);
+	}
+
+	private String toString(Node<E> root){
+
+		if(root == null){
+			return "";
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append(toString(root.left));
+		builder.append(" ");
+		builder.append(root.item);
+		builder.append(" ");
+		builder.append(toString(root.right));
+
+		return buildder.toString();
 	}
 	
 	
