@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class IndexNode  {
@@ -7,10 +8,10 @@ public class IndexNode  {
 	// The number of occurrences for this word
 	int occurences;
 	// A list of line numbers for this word.
-	List<Integer> list; 
-	
-	
-	
+	List<Integer> list;
+
+
+
 	IndexNode left;
 	IndexNode right;
 
@@ -23,21 +24,26 @@ public class IndexNode  {
 
 	public IndexNode(String word, int lineNumber) {
 
+		this.list = new ArrayList<>();
+		occurences = 1;
+		this.word = word;
+		list.add(lineNumber);
+
 	}
-	
-	
-	
-	
+
+
+
+
 	// Complete This
 	// return the word, the number of occurrences, and the lines it appears on.
 	// string must be one line
-	
+
 	public String toString(){
 
-		return toString(this.root);
+		return word + " " + occurences + " " + list;
 	}
 
-	private String toString(Node<E> root){
+	private String toString(IndexNode root){
 
 		if(root == null){
 			return "";
@@ -45,13 +51,14 @@ public class IndexNode  {
 		StringBuilder builder = new StringBuilder();
 		builder.append(toString(root.left));
 		builder.append(" ");
-		builder.append(root.item);
+		builder.append(root.word);
 		builder.append(" ");
 		builder.append(toString(root.right));
 
-		return buildder.toString();
+		return builder.toString();
 	}
-	
-	
-	
+
+
+
 }
+

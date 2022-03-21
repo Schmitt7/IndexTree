@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.File;
 
@@ -6,13 +7,13 @@ import java.io.File;
 // Here we know we are getting two pieces of data:  a string and a line number
 public class IndexTree {
 
-	// This is your root 
+	// This is your root
 	// again, your root does not use generics because you know your nodes
 	// hold strings, an int, and a list of integers
 	private IndexNode root;
 	private int size;
 
-	
+
 	// Make your constructor
 	// It doesn't need to do anything
 	public IndexTree(){
@@ -24,22 +25,22 @@ public class IndexTree {
 		return size;
 	}
 
-	
+
 	// complete the methods below
-	
+
 	// this is your wrapper method
 	// it takes in two pieces of data rather than one
 	// call your recursive add method
 	public void add(String word, int lineNumber){
 
-		this.root = add(this.root, word);
+		this.root = add(this.root, word, lineNumber);
 		size++;
 	}
 
 
 	// your recursive method for add
 	// Think about how this is slightly different then the regular add method
-	// When you add the word to the index, if it already exists, 
+	// When you add the word to the index, if it already exists,
 	// you want to  add it to the IndexNode that already exists
 	// otherwise make a new indexNode
 	private IndexNode add(IndexNode root, String word, int lineNumber){
@@ -51,7 +52,7 @@ public class IndexTree {
 		//Compares root to word and if it is the same then returns root
 		int compare = word.compareTo(root.word);
 		if(compare == 0){
-			return root;
+			return new IndexNode(word, lineNumber);
 		}
 
 		//Compares root to word and if it is less then root it creates a new node
@@ -69,19 +70,19 @@ public class IndexTree {
 		}
 
 	}
-	
-	
-	
-	
+
+
+
+
 	// returns true if the word is in the index
 	public boolean contains(String word){
 
 
 
-		return contains(this.root, word);
+		return contains(root, word);
 	}
 
-	private boolean contains(String word){
+	private boolean contains(IndexNode root, String word){
 
 		if(root == null){
 			return false;
@@ -100,7 +101,7 @@ public class IndexTree {
 			return contains(root.right, word);
 		}
 	}
-	
+
 	// call your recursive method
 	// use book as guide
 	public void delete(String word){
@@ -108,7 +109,7 @@ public class IndexTree {
 		this.root = this.delete(this.root, word);
 		size--;
 	}
-	
+
 	// your recursive case
 	// remove the word and all the entries for the word
 	// This should be no different then the regular technique.
@@ -161,44 +162,64 @@ public class IndexTree {
 			}
 		}
 	}
-	
-	
+
+
 	// prints all the words in the index in inorder order
 	// To successfully print it out
 	// this should print out each word followed by the number of occurrences and the list of all occurrences
 	// each word and its data gets its own line
-	public void printIndex(){
-		
+	public static void printIndex(IndexNode root){
+
+		if(root == null){
+			return;
+		}
+		printIndex(root.left);
+		System.out.println(root);
+		printIndex(root.left);
+
 	}
-	
+
 	public static void main(String[] args){
 
 		IndexTree index = new IndexTree();
+		int counter = 0;
+		String filename = "pg100.txt";
 
-		//Example from video. Probably not needed
-		index.add(15);
-		index.add(50);
-		index.add(20);
-		index.add(10);
-		index.add(13);
-		index.add(12);
-		index.add(7);
-		index.add(6);
+		try{
+			Scanner scan = new Scanner(new File("pg100.txt"));
 
-		System.out.println(index);
-		//Example from video END
+			while(scan.hasNextLine()){
+				counter++;
+				String line = scan.nextLine();
+				line = line.replaceAll(",", "");
+				String[] words = line.split("\\s+");
+				System.out.println(line);
+				for(String word : words){
+					word = word.replaceAll(":", "");
+					word = word.replaceAll(",", "");
+
+					index.add(word, counter);
+					System.out.println(word);
+
+				}
+			}
+			scan.close();
+		}
+		catch(FileNotFoundException e1){
+			e1.printStackTrace();
+		}
 
 
-
-
-
-		
 		// add all the words to the tree
-		
-		// print out the index
-		
-		// test removing a word from the index
 
-		
+
+		// print out the index
+		printIndex(index.root);
+
+		// test removing a word from the index
+		index.delete("threaten");
+
+
+
 	}
 }
