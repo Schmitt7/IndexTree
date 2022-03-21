@@ -40,7 +40,11 @@ public class IndexNode  {
 
 	public String toString(){
 
-		return word + " " + occurences + " " + list;
+		String output = "";
+
+		output += "Word: " + this.word + "Occurrences: " + occurences + "Line Number: " + list;
+
+		return output;
 	}
 
 	private String toString(IndexNode root){

@@ -217,7 +217,7 @@ public class IndexTree {
 		printIndex(index.root);
 
 		// test removing a word from the index
-		index.delete("threaten");
+		index.delete("pervert");
 
 
 
